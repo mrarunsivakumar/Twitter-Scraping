@@ -45,3 +45,5 @@ print(data)
 **#inserting twitter_scrap data to mongodb database**
 db = py["Twitter_scrap"]
 db.twitter.insert_many(data)
+
+**#in mongodb Twitter_scrap.twitter database is created
