@@ -22,14 +22,21 @@ def get_data():
     return pd.read_csv('twitter_scraping.csv')
 df = get_data()
 
-
-text = df['Text'].unique()
-text = st.selectbox('Text', text)
+#enter word to serach from date to To date with maxTweet 
+ text = st.text_input("Enter Word to Search")
+if text:
+        From = st.date_input("From Date")
+        if From:
+            To = st.date_input("To Date")
+            if To:
+                maxTweets = st.number_input("Number of Tweets",0)
+                if maxTweets:
 
 #submit and get data
 submit=st.button('submit')
 if submit:
    df[df['Text'] == text]  
+
 #download csv file
 @st.cache
 def convert_df(df):
