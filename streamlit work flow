@@ -4,6 +4,7 @@ STREAMLIT APP
 #import packages
 import pandas as pd 
 import streamlit as st
+import datetime
 
 #title of the app
 st.title("TWITTER SCRAPING!")
