@@ -1,10 +1,12 @@
 # Twitter-Scraping
 
 #install snscrape and streamlit
+
 pip install snscrape
 pip install streamlit
 
 #these are the libraries used for these sns.twitter scrape methods using a customizes streamlit website
+
 import streamlit as st
 import snscrape.modules.twitter as sntwitter
 import numpy as np
@@ -15,6 +17,7 @@ from pymongo import MongoClient
 from streamlit_option_menu import option_menu
 
 #connecting MongoDB-Database and creating a collection
+
 conn = MongoClient("mongodb://datascience:datadw34@ac-w9az9wo-shard-00-00.8r8qjvh.mongodb.net:27017,ac-w9az9wo-shard-00-01.8r8qjvh.mongodb.net:27017,ac-w9az9wo-shard-00-02.8r8qjvh.mongodb.net:27017/?ssl=true&replicaSet=atlas-ub3j2r-shard-0&authSource=admin&retryWrites=true&w=majority")
 db = conn["snscrape"]
 coll = db["twitter-data"]
@@ -24,12 +27,12 @@ coll = db["twitter-data"]
 st.header("TWITTER SCRAPPING USING SNSCRAPE")
 
 #It enables user to scrape the data from twitter using "snscrape"
+
 def ScrapingTheTwitter(word,From,To,maxTweets):
   tweets_list = []
   for i,tweet in enumerate(sntwitter.TwitterSearchScraper(f'{word} since:{From} until:{To}').get_items()):
       if i>maxTweets-1:
-          break
-      tweets_list.append([tweet.date,tweet.id,tweet.user.username,tweet.url,tweet.rawContent,tweet.replyCount,tweet.likeCount,tweet.retweetCount,tweet.lang,tweet.source ])
+          break      tweets_list.append([tweet.date,tweet.id,tweet.user.username,tweet.url,tweet.rawContent,tweet.replyCount,tweet.likeCount,tweet.retweetCount,tweet.lang,tweet.source ])
   tweets_df = pd.DataFrame(tweets_list, columns=['Datetime', 'Tweet Id','User Name','URL','Content','ReplyCount','LikeCount','Retweet-Count','Language','Source'])
   tweets_df.to_json("user-tweets.json")
   tweets_df.to_csv("user-tweets.csv")
@@ -38,6 +41,7 @@ def ScrapingTheTwitter(word,From,To,maxTweets):
 
 
 #It is to upload the search document in Mongodb database
+
 def Bird_In_Database(n_word):
     with open("user-tweets.json","r") as file:
         data = json.load(file)
@@ -49,7 +53,8 @@ def Bird_In_Database(n_word):
             }])
 
 #creating a navigation menu used to select the user to what to visible and perform
-#with st.sidebar:
+
+
 choice = option_menu(
     menu_title = None,
     options = ["Search","Home","Data-Base","Download"],
@@ -63,14 +68,15 @@ choice = option_menu(
         "nav-link-selected": {"background-color": "black"},}
     )
 #It remains default web-page
+
 if choice=="Home":
     col1, col2,col3 = st.columns(3)    
     col2.header("WELCOME TWITTER SCRAPING APP")
     
 
 #It enables user to search the key-word , from date , to date and no of datas
-if choice=="Search":    
-                       
+
+if choice=="Search":                  
     word = st.text_input("Enter Word to Search")
     if word:
         From = st.date_input("From Date")
@@ -86,6 +92,7 @@ if choice=="Search":
 
 
 #It enables user to download the search data in JSON or CSV file
+
 if choice=="Download":
     col1,col2,= st.columns(2)
     col2.header("*You can Download the previous search data ( or ) You can search for new-data")
@@ -117,6 +124,7 @@ if choice=="Download":
                                 st.download_button("DOWNLOAD THE Data as json", JSON,file_name="Twitter.json")
 
 #It is to upload the search data into mongodb database
+
 if choice=="Data-Base":
     col1,col2,col3 = st.columns(3)
     col2.header("You can ADD your Previous Search DATA into MongoDB data base to work with Cloud-Network")
