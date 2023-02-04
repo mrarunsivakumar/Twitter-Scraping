@@ -5,7 +5,7 @@ pip install snscrape
 pip install streamlit
 
 
-# libraries used for these sns.twitter scrape methods using a customizes streamlit app
+#import necessary libraries used for these sns.twitter scrape methods to create customizes streamlit app
 
 import streamlit as st
 import snscrape.modules.twitter as sntwitter
@@ -20,7 +20,7 @@ from streamlit_option_menu import option_menu
 
 st.header("TWITTER SCRAPPING USING SNSCRAPE")
 
-#creating a navigation menu used to select the user to what to visible and perform
+#creating a navigation menu used to select the user to what to visible and perform on streamlit app
 
 choice = option_menu(
     menu_title = None,
@@ -35,13 +35,13 @@ choice = option_menu(
         "nav-link-selected": {"background-color": "black"},}
     )
 
-#It remains default web-page
+#It is the home page of the streamlit app
 
 if choice=="Home":
     col1, col2,col3 = st.columns(3)    
     col2.header("WELCOME TWITTER SCRAPING APP")
 
-#It enables user to scrape the data from twitter using "snscrape"
+#Using snscrap user can scarp twitter data and store in the dataframe
 
 def ScrapingTheTwitter(word,From,To,maxTweets):
   tweets_list = []
