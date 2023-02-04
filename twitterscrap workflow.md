@@ -18,7 +18,29 @@ from streamlit_option_menu import option_menu
 
 st.header("TWITTER SCRAPPING USING SNSCRAPE")
 
+#creating a navigation menu used to select the user to what to visible and perform
+
+choice = option_menu(
+    menu_title = None,
+    options = ["Search","Home","Data-Base","Download"],
+    icons =["search","house","boxes","download"],
+    default_index=3,
+    orientation="horizontal",
+    styles={
+        "container": {"padding": "0!important", "background-color": "white","size":"cover"},
+        "icon": {"color": "cyan", "font-size": "20px"},
+        "nav-link": {"font-size": "20px", "text-align": "center", "margin": "-2px", "--hover-color": "#29BDE9 "},
+        "nav-link-selected": {"background-color": "black"},}
+    )
+
+#It remains default web-page
+
+if choice=="Home":
+    col1, col2,col3 = st.columns(3)    
+    col2.header("WELCOME TWITTER SCRAPING APP")
+
 #It enables user to scrape the data from twitter using "snscrape"
+
 def ScrapingTheTwitter(word,From,To,maxTweets):
   tweets_list = []
   for i,tweet in enumerate(sntwitter.TwitterSearchScraper(f'{word} since:{From} until:{To}').get_items()):
@@ -39,6 +61,7 @@ coll = db["twitter-data"]
 
 
 #It is to upload the search document in Mongodb database
+
 def Bird_In_Database(n_word):
     with open("user-tweets.json","r") as file:
         data = json.load(file)
@@ -49,24 +72,7 @@ def Bird_In_Database(n_word):
             "Data":data
             }])
 
-#creating a navigation menu used to select the user to what to visible and perform
 
-choice = option_menu(
-    menu_title = None,
-    options = ["Search","Home","Data-Base","Download"],
-    icons =["search","house","boxes","download"],
-    default_index=3,
-    orientation="horizontal",
-    styles={
-        "container": {"padding": "0!important", "background-color": "white","size":"cover"},
-        "icon": {"color": "cyan", "font-size": "20px"},
-        "nav-link": {"font-size": "20px", "text-align": "center", "margin": "-2px", "--hover-color": "#29BDE9 "},
-        "nav-link-selected": {"background-color": "black"},}
-    )
-#It remains default web-page
-if choice=="Home":
-    col1, col2,col3 = st.columns(3)    
-    col2.header("WELCOME TWITTER SCRAPING APP")
     
 
 #It enables user to search the key-word , from date , to date and no of datas
