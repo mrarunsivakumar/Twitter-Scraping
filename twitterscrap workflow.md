@@ -1,7 +1,9 @@
 # Twitter-Scraping
 
+#install snscrape and streamlit
+pip install snscrape  
+pip install streamlit
 
-pip install snscrape   #install snscrape
 
 # libraries used for these sns.twitter scrape methods using a customizes streamlit app
 
