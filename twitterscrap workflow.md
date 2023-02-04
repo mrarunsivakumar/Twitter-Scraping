@@ -3,7 +3,8 @@
 
 pip install snscrape   #install snscrape
 
-#these are the libraries used for these sns.twitter scrape methods using a customizes streamlit website
+# libraries used for these sns.twitter scrape methods using a customizes streamlit app
+
 import streamlit as st
 import snscrape.modules.twitter as sntwitter
 import numpy as np
@@ -12,11 +13,6 @@ import json
 import pandas as pd
 from pymongo import MongoClient
 from streamlit_option_menu import option_menu
-
-#connecting MongoDB-Database and creating a collection
-conn = MongoClient("mongodb://datascience:datadw34@ac-w9az9wo-shard-00-00.8r8qjvh.mongodb.net:27017,ac-w9az9wo-shard-00-01.8r8qjvh.mongodb.net:27017,ac-w9az9wo-shard-00-02.8r8qjvh.mongodb.net:27017/?ssl=true&replicaSet=atlas-ub3j2r-shard-0&authSource=admin&retryWrites=true&w=majority")
-db = conn["snscrape"]
-coll = db["twitter-data"]
 
 
 
@@ -35,6 +31,12 @@ def ScrapingTheTwitter(word,From,To,maxTweets):
   return tweets_df
 
 
+#connecting MongoDB-Database and creating a collection
+
+conn = MongoClient("mongodb://datascience:datadw34@ac-w9az9wo-shard-00-00.8r8qjvh.mongodb.net:27017,ac-w9az9wo-shard-00-01.8r8qjvh.mongodb.net:27017,ac-w9az9wo-shard-00-02.8r8qjvh.mongodb.net:27017/?ssl=true&replicaSet=atlas-ub3j2r-shard-0&authSource=admin&retryWrites=true&w=majority")
+db = conn["snscrape"]
+coll = db["twitter-data"]
+
 
 #It is to upload the search document in Mongodb database
 def Bird_In_Database(n_word):
@@ -48,7 +50,7 @@ def Bird_In_Database(n_word):
             }])
 
 #creating a navigation menu used to select the user to what to visible and perform
-#with st.sidebar:
+
 choice = option_menu(
     menu_title = None,
     options = ["Search","Home","Data-Base","Download"],
@@ -68,9 +70,9 @@ if choice=="Home":
     
 
 #It enables user to search the key-word , from date , to date and no of datas
-if choice=="Search":    
-                       
-    word = st.text_input("Enter Word to Search")
+
+if choice=="Search":
+        word = st.text_input("Enter Word to Search")
     if word:
         From = st.date_input("From Date")
         if From:
@@ -85,6 +87,7 @@ if choice=="Search":
 
 
 #It enables user to download the search data in JSON or CSV file
+
 if choice=="Download":
     col1,col2,= st.columns(2)
     col2.header("*You can Download the previous search data ( or ) You can search for new-data")
@@ -116,10 +119,10 @@ if choice=="Download":
                                 st.download_button("DOWNLOAD THE Data as json", JSON,file_name="Twitter.json")
 
 #It is to upload the search data into mongodb database
+
 if choice=="Data-Base":
     col1,col2,col3 = st.columns(3)
     col2.header("You can ADD your Previous Search DATA into MongoDB data base to work with Cloud-Network")
-
     list = ['',"store in data-base","view as data-frame"]
     CHOICE = st.selectbox("SELECT",list)
     if CHOICE=="store in data-base":
